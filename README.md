@@ -89,6 +89,8 @@ z listą indeksowanych kombinacji i decyzje na podstawie danych z Search Console
 - Przełącznik widoku siatka/lista (lista wierszy lepiej nadaje się do porównywania parametrów), z wyborem
   w cookie, a nie w URL ([ADR 0011](docs/adr/0011-product-cards.md)).
 - Wybór liczby produktów na stronę (20/40/60), dziś stałe 20.
+- Akcent kolorystyczny: [ADR 0002](docs/adr/0002-light-theme-blue-amber.md) zakłada bursztyn jako tło wyróżnień,
+  ale w UI go nie użyliśmy. Wybór elementu do wyróżnienia zostawiliśmy na koniec i zabrakło na to czasu.
 - Producent: wielokrotny wybór (serwer już obsługuje `manufacturer` powtarzany w URL), dziś pojedynczy.
 - Filtry na telefonie w wysuwanym panelu (`USlideover`): dziś są nad listą, więc pierwszy produkt jest niżej.
 - Pełny opis na telefonie: dziś tooltip tylko na desktopie (w HTML jest cały opis, więc SEO i czytniki ekranu go mają).
@@ -106,12 +108,70 @@ Do wdrożenia, gdy będzie czas (zabrakło go w limicie 5 h):
 
 ## 5. Lighthouse
 
-TODO
+Pomiar przez [PageSpeed Insights](https://pagespeed.web.dev/) (Lighthouse na serwerach Google), produkcja,
+22.10.2026, po poprawce kontrastu. Linki prowadzą do pełnych raportów. Każdy może też uruchomić pomiar ponownie
+przyciskiem „Analyze” albo lokalnie: `npx lighthouse https://zadanie-tech.vercel.app/ --preset=desktop --view`.
+
+| Strona | Profil | Performance | Accessibility | Best Practices | SEO | LCP | TBT | CLS | Raport |
+|---|---|---|---|---|---|---|---|---|---|
+| `/` | mobile | 90 | 100 | 100 | 100 | 2,9 s | 140 ms | 0 | [PSI](https://pagespeed.web.dev/analysis/https-zadanie-tech-vercel-app/gmnlwo7jen?form_factor=mobile) |
+| `/` | desktop | 84 | 100 | 100 | 100 | 0,5 s | 360 ms | 0 | [PSI](https://pagespeed.web.dev/analysis/https-zadanie-tech-vercel-app/gmnlwo7jen?form_factor=desktop) |
+| `/?category=battery` | mobile | 90 | 100 | 100 | 100 | 2,9 s | 140 ms | 0 | [PSI](https://pagespeed.web.dev/analysis/https-zadanie-tech-vercel-app/dsthpya7dv?form_factor=mobile) |
+| `/?category=battery` | desktop | 94 | 100 | 100 | 100 | 0,5 s | 200 ms | 0 | [PSI](https://pagespeed.web.dev/analysis/https-zadanie-tech-vercel-app/dsthpya7dv?form_factor=desktop) |
+
+- **Accessibility 100** po poprawce: wcześniejszy pomiar dawał 96, bo placeholder w selekcie producenta miał
+  kontrast 2,6:1 (`text-dimmed` z Nuxt UI). Poprawione w motywie (`--ui-text-dimmed` na neutral-500, 4,8:1),
+  tak jak `primary` w [ADR 0002](docs/adr/0002-light-theme-blue-amber.md).
+- **Wyniki Performance wahają się między pomiarami** o kilka do kilkunastu punktów. Lokalny Lighthouse dał
+  na desktopie 100 przy TBT 20 ms, a PSI 84–94 przy TBT 200–360 ms. Stabilne są LCP, CLS i czas odpowiedzi serwera.
+- **CLS 0:** stopka karty i przygaszanie listy przy ładowaniu (zamiast skeletonów) nie przesuwają układu.
+- **Serwer odpowiada w ok. 30 ms** (SSR z CSV w pamięci), więc czas idzie głównie na pobranie i wykonanie JS
+  oraz CSS blokujący renderowanie (TBT). Co dalej: mniej JS na starcie (lazy komponenty filtrów, ikony tylko
+  używane) i krytyczny CSS inline.
 
 ## 6. Użycie AI
 
-TODO
+Pracowałem z Claude Code (Opus) w trybie „ja decyduję, AI proponuje i recenzuje”. Zasady współpracy są
+w [CLAUDE.md](CLAUDE.md): każda decyzja jako pytanie z opcjami i ADR, komendy zmieniające stan uruchamiam sam,
+przed każdym commitem bramka `pnpm check`, a zmiany w UI sprawdzane w przeglądarce (Playwright, 375/768/1280 px).
+
+**Do czego:** analiza CSV skryptami (każdy wniosek liczony na 150 wierszach, nie „na oko”), propozycje opcji
+do decyzji, implementacja, code review, testy w przeglądarce, pomiar Lighthouse i dokumentacja.
+
+**Gdzie trzeba było poprawiać i dlaczego:**
+
+- **Analiza danych:** błędny pomiar pozycji wartości W w opisie, regex bez rozróżniania wielkości liter
+  („15, a scalable” jako 15 A), MC3 liczone jako MC4, „pierwsza wartość kWh” bez uzasadnienia. Wymusiłem
+  pytaniami kontrolnymi („pokaż wiersze”, „jaki wiersz obaliłby wniosek”) i dowodem z ceny za kWh
+  ([docs/data-analysis.md](docs/data-analysis.md)).
+- **Budowanie na wyrost:** AI zaproponowało `id`/slug „pod przyszłą stronę produktu”, której nie ma w zakresie.
+  Wystarcza unikalna nazwa jako klucz listy.
+- **Zgodność z ustaleniami:** AI zbudowało siatkę kart, choć moje notatki zakładały listę wierszy. Wybrałem świadomie
+  karty i spisałem to w [ADR 0011](docs/adr/0011-product-cards.md).
+- **Rozwiązania „na piechotę”:** ręczny `setTimeout` zamiast `useDebounceFn` z VueUse oraz logika
+  „1000 ms przy pisaniu”, która okazała się martwa, bo `UInputNumber` zatwierdza wartość dopiero przy opuszczeniu
+  pola (sprawdzone w przeglądarce).
+- **Błędy wyłapane w code review i testach regresji kodu napisanego przez AI:** osobne debounce w każdym
+  komponencie (filtr wracał po wyszukiwaniu), zapis połowy zakresu przy przejściu Tabem z „od” do „do”,
+  `watch` nadpisujący wpisane wartości (nowa tablica przy każdej zmianie URL), domyślny `sort=name` w URL,
+  kolizja typu `Range` z globalnym typem DOM, opis SEO z danymi kategorii zamiast wyniku.
+- **Czytelność i styl:** schemat URL rozproszony w trzech plikach (scalony w jeden parser dla serwera i UI),
+  `function` zamiast funkcji strzałkowych (wymuszone regułą ESLint `func-style`), zbędne importy
+  auto-importowanych symboli, komentarze zamiast czytelnych nazw.
+- **Wiarygodność:** wyniki Lighthouse zmierzone lokalnie przez AI zastąpiłem raportami PageSpeed Insights
+  z linkami. W [ADR 0017](docs/adr/0017-test-scope.md) zapisaliśmy uczciwie, czego testy nie pokrywają.
+
+**Wniosek:** AI przyspiesza implementację i dobrze wyłapuje przypadki brzegowe w danych, gdy każe mu się liczyć,
+a nie zgadywać. Wymaga jednak ciągłej weryfikacji: niemal każdy większy fragment kodu przeszedł przez review,
+test w przeglądarce albo regresję, i kilka razy wyszedł z tego realny błąd.
 
 ## 7. Czas pracy
 
-TODO (z historii commitów: analiza wymagań i danych, implementacja, suma).
+| Etap | Czas |
+|---|---|
+| Analiza wymagań i danych, konfiguracja projektu (16:24–18:15) | 1 h 51 min |
+| Implementacja, testy, dokumentacja (18:15–21:00) | ok. 2 h 45 min |
+| **Razem** | **ok. 4 h 36 min** |
+
+Liczony z historii commitów: od pierwszego commita `ff9e221` (16:24), granica analizy to commit `d1c6534`
+z analizą CSV (18:15), koniec to ostatni commit. Czas przed pierwszym commitem (lektura zadania) nie jest wliczony.

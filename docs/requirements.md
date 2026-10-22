@@ -17,7 +17,7 @@ Technicznie:
 - [x] **stan filtrów w URL**: link z filtrami renderuje się w SSR z właściwymi wynikami, „wstecz” działa,
 - [x] SEO: tytuł i meta zależne od filtrów,
 - [x] czytelny i wygodny UI (biblioteka komponentów, bez autorskiego designu),
-- [x] deploy z publicznym linkiem (do wypchnięcia: ostatnie zmiany).
+- [x] deploy z publicznym linkiem: https://zadanie-tech.vercel.app/
 
 Poza zakresem: strona produktu, logowanie, panel edycji.
 Opcjonalnie (tylko jeśli całość z README zmieści się w 5 h): testy Vitest, jeden scenariusz E2E Playwright.
