@@ -66,5 +66,7 @@ const selectManufacturer = (value: string | null) => {
       :range="filters.spec"
       :bounds="facets.spec"
     />
+
+    <ResetFiltersButton />
   </div>
 </template>
