@@ -21,7 +21,6 @@ const UNIT_BY_CATEGORY: Record<Category, SpecUnit | null> = {
   'connector': null
 }
 
-// Case-sensitive on purpose: "15, a scalable" must not read as 15 A (docs/data-analysis.md).
 const SPEC_PATTERN: Record<SpecUnit, RegExp> = {
   kWh: /(\d+(?:\.\d+)?)kWh/,
   W: /(\d+(?:\.\d+)?)W\b/
@@ -35,7 +34,7 @@ export interface ParseResult {
   warnings: string[]
 }
 
-export function parseProducts(csv: string): ParseResult {
+export const parseProducts = (csv: string): ParseResult => {
   const rows = parse<CsvRow>(csv, { columns: true, skip_empty_lines: true })
   const products: Product[] = []
   const warnings: string[] = []
@@ -47,7 +46,6 @@ export function parseProducts(csv: string): ParseResult {
       warnings.push(`${row.name}: unknown category "${row.category}", skipped`)
       continue
     }
-    // Number() alone turns "" into 0 and parseFloat("1,999.00") into 1.
     if (!PRICE_FORMAT.test(row.price)) {
       warnings.push(`${row.name}: invalid price "${row.price}", skipped`)
       continue
@@ -74,9 +72,7 @@ export function parseProducts(csv: string): ParseResult {
   return { products, warnings }
 }
 
-// The first value in the description is the one for the item at this price;
-// the trailing number in the name is a cross-check (ADR 0006).
-function parseSpec(row: CsvRow, category: Category): { spec: Spec | null, warning?: string } {
+const parseSpec = (row: CsvRow, category: Category): { spec: Spec | null, warning?: string } => {
   const unit = UNIT_BY_CATEGORY[category]
   if (!unit) return { spec: null }
 

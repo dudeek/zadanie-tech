@@ -1,11 +1,8 @@
-// Value lists define the types, so runtime validation and types cannot drift apart.
-
 export const CATEGORIES = ['battery', 'solar-panel', 'connector'] as const
 export type Category = typeof CATEGORIES[number]
 
 const BASE_SORTS = ['name', 'price-asc', 'price-desc'] as const
 
-// kWh/W sorts only inside their own category (ADR 0009).
 export const SORTS_BY_CATEGORY = {
   'battery': [...BASE_SORTS, 'capacity-asc', 'capacity-desc'],
   'solar-panel': [...BASE_SORTS, 'power-asc', 'power-desc'],
@@ -14,12 +11,14 @@ export const SORTS_BY_CATEGORY = {
 
 export type Sort = typeof SORTS_BY_CATEGORY[Category][number]
 
-// Without a category only the base sorts are available.
-export function sortsFor(category?: Category): readonly Sort[] {
+export const sortsFor = (category?: Category): readonly Sort[] => {
   return category ? SORTS_BY_CATEGORY[category] : BASE_SORTS
 }
 
-// Prefix of the kWh/W range params (`capacityMin`) and sorts (`capacity-asc`), only valid in its category (ADR 0009).
+export const allowedSort = (sort: string | undefined, category?: Category): Sort | undefined => {
+  return sortsFor(category).find(item => item === sort)
+}
+
 export const SPEC_PARAM_BY_CATEGORY: Record<Category, 'capacity' | 'power' | null> = {
   'battery': 'capacity',
   'solar-panel': 'power',
@@ -42,21 +41,27 @@ export interface Product {
   spec: Spec | null
 }
 
-export interface Range {
+export interface NumberRange {
   min?: number
   max?: number
 }
 
-// URL query after validation; invalid values are dropped, not rejected.
+export type RangeParam = 'price' | 'capacity' | 'power'
+
 export interface ProductQuery {
   search: string
   category?: Category
   manufacturers: string[]
-  price: Range
-  // capacity (kWh) or power (W), depending on the category; empty without a category.
-  spec: Range
+  price: NumberRange
+  spec: NumberRange
   sort: Sort
   page: number
+}
+
+export interface Facets {
+  manufacturers: string[]
+  price: { min: number, max: number }
+  spec: { min: number, max: number, unit: SpecUnit } | null
 }
 
 export interface ProductListResponse {
@@ -64,9 +69,5 @@ export interface ProductListResponse {
   total: number
   page: number
   pageCount: number
-  facets: {
-    manufacturers: string[]
-    price: { min: number, max: number }
-    spec: { min: number, max: number, unit: SpecUnit } | null
-  }
+  facets: Facets
 }

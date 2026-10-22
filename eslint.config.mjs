@@ -16,6 +16,12 @@ export default withNuxt(
     }
   },
   {
+    files: ['app/**', 'server/**', 'shared/**', 'test/**'],
+    rules: {
+      'func-style': ['error', 'expression']
+    }
+  },
+  {
     files: localeFiles,
     rules: {
       'jsonc/sort-keys': ['error', { pathPattern: '.*', order: { type: 'asc' } }]

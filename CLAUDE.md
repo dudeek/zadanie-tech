@@ -46,7 +46,9 @@ na żywo, więc kod ma być prosty do wyjaśnienia.
   sortowanie, czas opóźnienia filtrów), bo korzystają z nich serwer i UI. Żadnych „magicznych liczb”
   rozsianych po komponentach. Listy definiujące model (kategorie, sortowania) leżą przy typach
   w `shared/types/`, a typ jest z nich wyprowadzony.
-- **Importy tylko przez aliasy:** `#shared/…`, `#server/…`, `@/…` (= `app/`). Bez ścieżek `../`.
+- **Importy:** w `app/`, `server/` i `shared/` bez importów tego, co Nuxt auto-importuje
+  (`shared/utils`, `shared/types`, `server/utils`, composables). Aliasy `#shared/…`/`#server/…` tylko tam, gdzie auto-importów nie ma (testy w czystym Vitest i moduły przez nie testowane). `@/…` = `app/`.
+  Nigdy ścieżek `../`.
 
 ## Komendy
 

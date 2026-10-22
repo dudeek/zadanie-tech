@@ -38,6 +38,10 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   o popularności ([ADR 0009](docs/adr/0009-filters-and-sorting.md)).
 - Wyszukiwanie: każde słowo musi wystąpić w nazwie, producencie lub opisie, bez biblioteki i rankingu
   ([ADR 0010](docs/adr/0010-search-all-words.md)).
+- Produkty jako karty w siatce, 20 na stronę, kWh/W i cena w stopce w jednej linii, żeby dało się je porównać
+  ([ADR 0011](docs/adr/0011-product-cards.md)).
+- Filtry w URL: wyszukiwanie przyciskiem (nowe resetuje filtry), listy po 300 ms, pola od–do po opuszczeniu
+  pary lub Enterze, każda zmiana to wpis w historii; jeden zapis URL na stronę ([ADR 0012](docs/adr/0012-filters-in-url.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 
@@ -53,6 +57,14 @@ TODO
 - `exactOptionalPropertyTypes` pominięte: tarcie z typami Nuxt UI, rozróżnienie brakującego pola daje
   walidacja w runtime ([ADR 0003](docs/adr/0003-typescript-strict.md)).
 - Brak cache CDN (ISR) dla kombinacji filtrów ([ADR 0004](docs/adr/0004-ssr-listing.md)).
+- Przełącznik widoku siatka/lista (lista wierszy lepiej nadaje się do porównywania parametrów), z wyborem
+  w cookie, a nie w URL ([ADR 0011](docs/adr/0011-product-cards.md)).
+- Wybór liczby produktów na stronę (20/40/60), dziś stałe 20.
+- Producent: wielokrotny wybór (serwer już obsługuje `manufacturer` powtarzany w URL), dziś pojedynczy.
+- Filtry na telefonie w wysuwanym panelu (`USlideover`): dziś są nad listą, więc pierwszy produkt jest niżej.
+- Pełny opis na telefonie: dziś tooltip tylko na desktopie (w HTML jest cały opis, więc SEO i czytniki ekranu go mają).
+- Wolne łącze: `useFetch` domyślnie anuluje poprzednie zapytanie (`dedupe: 'cancel'`), ale nie sprawdziliśmy tego
+  na throttlingu. Do zrobienia: jawny `AbortController` i `timeout` z komunikatem dla użytkownika.
 
 ## 5. Lighthouse
 

@@ -26,6 +26,7 @@ logs
 
 # Docs
 task
+notes
 
 # Claude Code (local permissions)
 .claude/settings.local.json

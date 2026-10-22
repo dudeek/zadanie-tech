@@ -7,6 +7,29 @@
     "connector": "Connector",
     "solar-panel": "Solar panel"
   },
+  "filters": {
+    "capacity": "Capacity (kWh)",
+    "category": {
+      "all": "All categories",
+      "label": "Category"
+    },
+    "manufacturer": {
+      "label": "Manufacturer",
+      "placeholder": "All manufacturers"
+    },
+    "max": "Max",
+    "min": "Min",
+    "power": "Power (W)",
+    "price": "Price",
+    "rangeError": "Min cannot be greater than max",
+    "reset": "Clear filters",
+    "search": {
+      "clear": "Clear search",
+      "label": "Search products",
+      "placeholder": "Search by name, manufacturer or description",
+      "submit": "Search"
+    }
+  },
   "products": {
     "count": "No products | {count} product | {count} products",
     "empty": {
@@ -15,5 +38,15 @@
     },
     "error": "Products could not be loaded. Please try again.",
     "title": "PV products"
+  },
+  "sort": {
+    "capacity-asc": "Capacity: low to high",
+    "capacity-desc": "Capacity: high to low",
+    "label": "Sort by",
+    "name": "Name: A to Z",
+    "power-asc": "Power: low to high",
+    "power-desc": "Power: high to low",
+    "price-asc": "Price: low to high",
+    "price-desc": "Price: high to low"
   }
 }

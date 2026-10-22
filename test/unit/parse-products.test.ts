@@ -4,11 +4,11 @@ import { parseProducts } from '#server/utils/parse-products'
 
 const HEADER = 'name,manufacturer,price,description,category'
 
-function csvRow(name: string, description: string, category: string, price = '100'): string {
+const csvRow = (name: string, description: string, category: string, price = '100'): string => {
   return `${HEADER}\n"${name}",Acme,"${price}","${description}",${category}`
 }
 
-function parseOne(name: string, description: string, category: string, price?: string) {
+const parseOne = (name: string, description: string, category: string, price?: string) => {
   return parseProducts(csvRow(name, description, category, price))
 }
 

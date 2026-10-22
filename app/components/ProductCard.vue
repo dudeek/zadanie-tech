@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Product } from '#shared/types/product'
-
 defineProps<{ product: Product }>()
 
 const { t, n } = useI18n()
@@ -8,17 +6,11 @@ const { t, n } = useI18n()
 
 <template>
   <UCard :ui="{ root: 'flex flex-col', body: 'flex flex-1 flex-col gap-3' }">
-    <div class="flex flex-wrap items-center gap-2">
+    <div>
       <UBadge
         :label="t(`category.${product.category}`)"
         color="neutral"
         variant="subtle"
-      />
-      <UBadge
-        v-if="product.spec"
-        :label="`${n(product.spec.value)} ${product.spec.unit}`"
-        color="primary"
-        variant="soft"
       />
     </div>
 
@@ -31,12 +23,26 @@ const { t, n } = useI18n()
       </p>
     </div>
 
-    <p class="line-clamp-3 text-sm text-toned">
-      {{ product.description }}
-    </p>
+    <UTooltip
+      :text="product.description"
+      :content="{ side: 'top' }"
+      :ui="{ content: 'h-auto max-w-sm text-sm', text: 'whitespace-normal' }"
+    >
+      <p class="line-clamp-3 text-sm text-toned">
+        {{ product.description }}
+      </p>
+    </UTooltip>
 
-    <p class="mt-auto text-lg font-semibold text-highlighted">
-      {{ n(product.price, 'price') }}
-    </p>
+    <div class="mt-auto flex items-center justify-between gap-2">
+      <UBadge
+        v-if="product.spec"
+        :label="`${n(product.spec.value)} ${product.spec.unit}`"
+        color="primary"
+        variant="soft"
+      />
+      <p class="ml-auto text-lg font-semibold text-highlighted">
+        {{ n(product.price, 'price') }}
+      </p>
+    </div>
   </UCard>
 </template>
