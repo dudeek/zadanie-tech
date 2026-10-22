@@ -29,3 +29,6 @@ task
 
 # Claude Code (local permissions)
 .claude/settings.local.json
+
+# Playwright MCP (screenshots, snapshots)
+.playwright-mcp

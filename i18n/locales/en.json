@@ -1,2 +1,8 @@
 {
+  "app": {
+    "name": "PV Marketplace"
+  },
+  "products": {
+    "title": "PV products"
+  }
 }
