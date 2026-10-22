@@ -1,14 +1,13 @@
 <script setup lang="ts">
 const { t } = useI18n()
+const localeHead = useLocaleHead()
 
-useHead({
+useHead(() => ({
   link: [
     { rel: 'icon', href: '/energyicon.ico' }
   ],
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
+  htmlAttrs: localeHead.value.htmlAttrs
+}))
 
 useSeoMeta({
   title: () => t('app.name')

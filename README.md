@@ -26,6 +26,8 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   ([ADR 0003](docs/adr/0003-typescript-strict.md)).
 - `/` renderowany w SSR przy każdym żądaniu: prerender ze startera ignorował query z filtrami
   ([ADR 0004](docs/adr/0004-ssr-listing.md)).
+- UI po angielsku jak dane, i18n z jedną lokalizacją, więc kolejny język nie wymaga zmian w komponentach
+  ([ADR 0005](docs/adr/0005-english-ui-i18n.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 

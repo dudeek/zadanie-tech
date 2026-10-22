@@ -50,7 +50,7 @@ więc link z filtrami nie wyrenderuje się w SSR. Usunięte, `/` w SSR ([ADR 000
 
 ## Tematy do decyzji (każda kończy się ADR)
 
-1. Język i i18n (odbiorcy w całej Europie).
+1. ~~Język i i18n (odbiorcy w całej Europie).~~ EN, i18n z jedną lokalizacją, [ADR 0005](adr/0005-english-ui-i18n.md).
 2. Źródło kWh/W: opis, nazwa czy oba z kontrolą zgodności; parsowanie przy starcie czy przy buildzie.
 3. Model danych: jedno pole „parametr + jednostka” czy dwa; `id`/slug, waluta, format ceny.
 4. Filtr/sort po kWh/W przy mieszanych kategoriach (różne jednostki).
