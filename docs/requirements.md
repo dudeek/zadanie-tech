@@ -46,7 +46,7 @@ i dystrybutorzy w całej Europie; dane po angielsku.
 ### Pułapka w kodzie startera
 
 `routeRules: { '/': { prerender: true } }` w `nuxt.config.ts`: prerenderowany `/` ignoruje query,
-więc link z filtrami nie wyrenderuje się w SSR. Do zmiany.
+więc link z filtrami nie wyrenderuje się w SSR. Usunięte, `/` w SSR ([ADR 0004](adr/0004-ssr-listing.md)).
 
 ## Tematy do decyzji (każda kończy się ADR)
 
@@ -61,7 +61,7 @@ więc link z filtrami nie wyrenderuje się w SSR. Do zmiany.
    Do tego filtr ceny przy zakresie 6.99–1999 (suwak czy pola, zakres zależny od kategorii).
 9. Wyszukiwanie: podciąg czy tokeny, debounce.
 10. Paginacja czy jedna strona.
-11. Tryb renderowania `/`.
+11. ~~Tryb renderowania `/`.~~ SSR, [ADR 0004](adr/0004-ssr-listing.md).
 12. SEO: tytuł/opis z filtrów, `canonical`, `noindex` dla części kombinacji.
 13. Stany: pusty wynik, ładowanie, błąd.
 14. Zakres testów.
