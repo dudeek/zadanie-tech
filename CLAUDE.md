@@ -42,8 +42,11 @@ na żywo, więc kod ma być prosty do wyjaśnienia.
 
 ## Kod
 
-- **Stałe konfiguracyjne w jednym miejscu:** `app/utils/constants.ts` (np. domyślny i dozwolone rozmiary
-  strony, czas opóźnienia filtrów, lista sortowań). Żadnych „magicznych liczb” rozsianych po komponentach.
+- **Stałe konfiguracyjne w jednym miejscu:** `shared/utils/constants.ts` (np. rozmiar strony, domyślne
+  sortowanie, czas opóźnienia filtrów), bo korzystają z nich serwer i UI. Żadnych „magicznych liczb”
+  rozsianych po komponentach. Listy definiujące model (kategorie, sortowania) leżą przy typach
+  w `shared/types/`, a typ jest z nich wyprowadzony.
+- **Importy tylko przez aliasy:** `#shared/…`, `#server/…`, `@/…` (= `app/`). Bez ścieżek `../`.
 
 ## Komendy
 
