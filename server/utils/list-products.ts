@@ -9,6 +9,7 @@ export const listProducts = (all: Product[], query: ProductQuery): ProductListRe
     total: matching.length,
     page,
     pageCount,
+    minPrice: matching.length > 0 ? Math.min(...matching.map(p => p.price)) : null,
     facets: buildFacets(inCategory, query.category)
   }
 }

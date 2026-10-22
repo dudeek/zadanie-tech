@@ -42,14 +42,35 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   ([ADR 0011](docs/adr/0011-product-cards.md)).
 - Filtry w URL: wyszukiwanie przyciskiem (nowe resetuje filtry), listy po 300 ms, pola od–do po opuszczeniu
   pary lub Enterze, każda zmiana to wpis w historii; jeden zapis URL na stronę ([ADR 0012](docs/adr/0012-filters-in-url.md)).
+- SEO: indeksowane kategoria i producent, wyszukiwanie i zakresy `noindex, follow`, `canonical` bez sortu
+  i zakresów ([ADR 0013](docs/adr/0013-seo-indexable-filters.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 
-TODO. Analiza danych: [docs/data-analysis.md](docs/data-analysis.md).
+Najpierw analiza danych skryptem na wszystkich 150 wierszach ([docs/data-analysis.md](docs/data-analysis.md)),
+potem parser ([server/utils/parse-products.ts](server/utils/parse-products.ts)) i testy jednostkowe.
+
+- **Kategoria wyznacza jednostkę:** bateria → kWh, panel → W, konektor → brak. Dzięki temu nie trzeba
+  przeliczać jednostek i nie łapiemy fałszywych trafień z innych kategorii.
+- **Źródłem jest opis, kontrolą liczba na końcu nazwy** („Stack 7.5”). Przy niezgodności wartość to `null`
+  plus ostrzeżenie w logu: „brak danych” jest lepszy niż błędna pojemność ([ADR 0006](docs/adr/0006-spec-from-description-checked-by-name.md)).
+- **Pierwsza wartość z opisu.** 5 baterii ma dwie wartości kWh (moduł i system albo maksymalna rozbudowa).
+  Pierwsza dotyczy kupowanej sztuki, co potwierdza cena za kWh: przy pierwszej wartości mieści się w zakresie
+  reszty baterii (~148 €/kWh), przy drugiej odstaje 2–5×.
+- **Wielkość liter ma znaczenie:** „Reserve 15, **a** scalable” nie może dać 15 A, a producent „Terra**Watt**”
+  nie może dać W.
+- **Fałszywi kandydaci odrzucani:** `6,000 cycle` (bez jednostki), `48V`, `5400 Pa`, `MC4`, `T-Branch 2-1`, `10-pack`.
+- **Cena** sprawdzana regexem przed `Number()`, bo `Number('')` daje 0, a `parseFloat('1,999.00')` daje 1.
+- **Wynik:** 100 wartości poprawnych, 50 braków (wszystkie konektory), 0 niezgodności. Test na prawdziwym
+  pliku działa w komendzie buildu, więc zmiana danych łamiąca regułę zatrzyma deploy ([ADR 0007](docs/adr/0007-parse-csv-once-per-instance.md)).
 
 ## 3. Indeksowanie kombinacji filtrów
 
-TODO
+Indeksujemy tylko kombinacje o stabilnej treści, których ludzie szukają: kategorię i kategorię z producentem
+(„PowerFlow batteries”), z własnym tytułem, opisem i `canonical`. Sortowanie nie zmienia treści, więc
+`canonical` je pomija, a wyszukiwanie i zakresy cen czy kWh/W dają nieskończenie wiele wariantów tej samej
+listy, więc mają `noindex, follow` (robot nadal przechodzi po linkach). Przy większej skali: sitemap
+z listą indeksowanych kombinacji i decyzje na podstawie danych z Search Console ([ADR 0013](docs/adr/0013-seo-indexable-filters.md)).
 
 ## 4. Czego celowo nie zrobiono i co dalej
 

@@ -69,5 +69,6 @@ export interface ProductListResponse {
   total: number
   page: number
   pageCount: number
+  minPrice: number | null
   facets: Facets
 }

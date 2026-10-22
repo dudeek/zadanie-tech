@@ -65,6 +65,6 @@ więc link z filtrami nie wyrenderuje się w SSR. Usunięte, `/` w SSR ([ADR 000
 9. Wyszukiwanie: tokeny AND, [ADR 0010](adr/0010-search-all-words.md). Otwarte: debounce (z tematem 7).
 10. Paginacja czy jedna strona.
 11. ~~Tryb renderowania `/`.~~ SSR, [ADR 0004](adr/0004-ssr-listing.md).
-12. SEO: tytuł/opis z filtrów, `canonical`, `noindex` dla części kombinacji.
+12. ~~SEO: tytuł/opis z filtrów, `canonical`, `noindex` dla części kombinacji.~~ [ADR 0013](adr/0013-seo-indexable-filters.md).
 13. Stany: pusty wynik, ładowanie, błąd.
 14. Zakres testów.

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const route = useRoute()
-const { startNewSearch } = provideListingQuery()
+const { filters, startNewSearch } = provideListingQuery()
 
 const { data, error } = await useFetch('/api/products', {
   query: computed(() => route.query)
 })
+
+useListingSeo(filters, data)
 
 const pageLink = (page: number) => {
   return { query: { ...route.query, page: page > 1 ? page : undefined } }

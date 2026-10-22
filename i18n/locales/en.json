@@ -39,6 +39,18 @@
     "error": "Products could not be loaded. Please try again.",
     "title": "PV products"
   },
+  "seo": {
+    "byManufacturer": "{manufacturer} {products}",
+    "description": "{products}: no products found. | {products}: {count} product, priced at {price}. | {products}: {count} products, priced from {price}.",
+    "pageTitle": "{title}, page {page}",
+    "products": {
+      "all": "PV products",
+      "battery": "Batteries",
+      "connector": "Connectors",
+      "solar-panel": "Solar panels"
+    },
+    "searchTitle": "Search results for \"{search}\""
+  },
   "sort": {
     "capacity-asc": "Capacity: low to high",
     "capacity-desc": "Capacity: high to low",

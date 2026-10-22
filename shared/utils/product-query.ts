@@ -8,6 +8,14 @@ export const rangeToQuery = (param: RangeParam, range: NumberRange) => ({
   [`${param}Max`]: range.max
 })
 
+export const INDEXABLE_PARAMS = ['category', 'manufacturer', 'page']
+
+const hasRange = (range: NumberRange) => range.min !== undefined || range.max !== undefined
+
+export const isIndexable = (query: ProductQuery): boolean => {
+  return query.search === '' && !hasRange(query.price) && !hasRange(query.spec)
+}
+
 export const parseProductQuery = (raw: Record<string, unknown>): ProductQuery => {
   const category = queryOneOf(raw.category, CATEGORIES)
   const specParam = category ? SPEC_PARAM_BY_CATEGORY[category] : null
