@@ -27,20 +27,7 @@ useSeoMeta({
 <template>
   <UApp>
     <UHeader>
-      <template #left>
-        <NuxtLink
-          to="/"
-          class="-ms-1 rounded-md p-1 outline-primary/25 focus-visible:outline-3"
-        >
-          <AppLogo class="h-6 w-auto shrink-0" />
-        </NuxtLink>
-
-        <TemplateMenu />
-      </template>
-
       <template #right>
-        <UColorModeButton />
-
         <UButton
           to="https://github.com/nuxt-ui-templates/starter"
           target="_blank"
