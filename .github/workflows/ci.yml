@@ -4,12 +4,7 @@ on: push
 
 jobs:
   ci:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [24]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -21,14 +16,11 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v7
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 24
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Lint
-        run: pnpm run lint
-
-      - name: Typecheck
-        run: pnpm run typecheck
+      - name: Check (lint, typecheck, tests)
+        run: pnpm check

@@ -10,6 +10,12 @@ const localeFiles = ['i18n/locales/*.json']
 export default withNuxt(
   eslintPluginJsonc.configs.base.map(config => ({ ...config, files: localeFiles })),
   {
+    files: ['**/*.vue'],
+    rules: {
+      'vue/block-lang': ['error', { script: { lang: 'ts' } }]
+    }
+  },
+  {
     files: localeFiles,
     rules: {
       'jsonc/sort-keys': ['error', { pathPattern: '.*', order: { type: 'asc' } }]
