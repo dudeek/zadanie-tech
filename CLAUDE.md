@@ -7,8 +7,13 @@ Projekt dla marketplace'u B2B fotowoltaiki: **strona listingu produktów PV w Nu
 w `task/` (poza repo): `task/zadanie-frontend-developer.md`, `task/products.csv`.
 Czas: ok. 3–4 h, **twardy stop po 5 h łącznie z README**.
 
+**Wymagania, analiza danych i otwarte tematy: [docs/requirements.md](docs/requirements.md).** Krytyczne
+(nie tniemy): filtrowanie i wyszukiwanie na serwerze (Nitro, CSV), stan w URL + SSR + „wstecz”, kWh/W
+z danych, SEO zależne od filtrów, TS strict, deploy, README (7 punktów). Decyzje: [docs/adr/](docs/adr/).
+
 Cel ponad „działający kod”: inżynierskie podejście, czyli zrozumienie problemu, świadome decyzje
-z alternatywami, jakość wymuszana narzędziami i wyczucie proporcji.
+z alternatywami, jakość wymuszana narzędziami i wyczucie proporcji. Na spotkaniu będzie zmiana kodu
+na żywo, więc kod ma być prosty do wyjaśnienia.
 
 ## Zasady współpracy
 
@@ -50,9 +55,7 @@ z alternatywami, jakość wymuszana narzędziami i wyczucie proporcji.
 ## Zasady UI
 
 - Tylko komponenty Nuxt UI; własny HTML wyłącznie dla układu (`div`, `section`), nigdy dla kontrolek.
-- **Jeden motyw: jasny**; tryb ciemny i przełącznik wyłączone.
-- **Kolory dopasowane do tematyki:** sklep z fotowoltaiką (słońce, energia, czysta technologia, B2B, więc
-  spokojnie i profesjonalnie).
+- Jeden jasny motyw, kontrast WCAG AA ([ADR 0002](docs/adr/0002-light-theme-blue-amber.md)).
 - Kolory tylko semantyczne (`primary`, `neutral`, `error` itd.), ustawione raz w `app.config.ts`;
   żadnych hexów ani nazw palet Tailwinda (`amber-500`) w komponentach.
 - Odstępy ze skali Tailwinda, bez wartości arbitralnych (`mt-[13px]`).
@@ -62,6 +65,6 @@ z alternatywami, jakość wymuszana narzędziami i wyczucie proporcji.
 
 ## Środowisko
 
-Omarchy (Arch), mise: node 26 + pnpm 12, VS Code z ESLint (stylistic, bez Prettiera), SSH do GitHuba,
+Omarchy (Arch), mise: node 24 + pnpm 12 ([ADR 0001](docs/adr/0001-node-24.md)), VS Code z ESLint (stylistic, bez Prettiera), SSH do GitHuba,
 `gh` zalogowany (`dudeek`). Pluginy Claude: superpowers, context7, playwright, design
 (skille: design-critique, design-handoff, ux-copy, accessibility-review; konektorów nie używam).
