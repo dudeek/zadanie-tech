@@ -2,7 +2,18 @@
   "app": {
     "name": "PV Marketplace"
   },
+  "category": {
+    "battery": "Battery",
+    "connector": "Connector",
+    "solar-panel": "Solar panel"
+  },
   "products": {
+    "count": "No products | {count} product | {count} products",
+    "empty": {
+      "description": "Try changing the search or removing some filters.",
+      "title": "No matching products"
+    },
+    "error": "Products could not be loaded. Please try again.",
     "title": "PV products"
   }
 }
