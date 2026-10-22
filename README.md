@@ -44,6 +44,8 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   pary lub Enterze, każda zmiana to wpis w historii; jeden zapis URL na stronę ([ADR 0012](docs/adr/0012-filters-in-url.md)).
 - SEO: indeksowane kategoria i producent, wyszukiwanie i zakresy `noindex, follow`, `canonical` bez sortu
   i zakresów ([ADR 0013](docs/adr/0013-seo-indexable-filters.md)).
+- Ładowanie: stare wyniki przygaszone z paskiem postępu zamiast skeletonów, więc układ nie skacze
+  i nic nie miga przy szybkiej odpowiedzi ([ADR 0014](docs/adr/0014-loading-state.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 

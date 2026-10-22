@@ -7,6 +7,17 @@
     "connector": "Connector",
     "solar-panel": "Solar panel"
   },
+  "error": {
+    "backToProducts": "Back to products",
+    "notFound": {
+      "description": "The page you are looking for does not exist or has been moved.",
+      "title": "Page not found"
+    },
+    "unexpected": {
+      "description": "Something went wrong on our side. Please try again in a moment.",
+      "title": "Something went wrong"
+    }
+  },
   "filters": {
     "capacity": "Capacity (kWh)",
     "category": {
@@ -38,6 +49,7 @@
       "title": "No matching products"
     },
     "error": "Products could not be loaded. Please try again.",
+    "loading": "Loading products",
     "title": "PV products"
   },
   "seo": {

@@ -3,7 +3,7 @@ const { t } = useI18n()
 const route = useRoute()
 const { filters } = provideListingQuery()
 
-const { data, error } = await useFetch('/api/products', {
+const { data, error, status } = await useFetch('/api/products', {
   query: computed(() => route.query)
 })
 
@@ -35,6 +35,7 @@ useListingSeo(filters, data)
         <ProductResults
           :result="data"
           :failed="Boolean(error)"
+          :loading="status === 'pending'"
         />
       </section>
     </div>
