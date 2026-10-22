@@ -27,6 +27,9 @@ znaku dawałby zapytania z niepełnymi wartościami („1”, „15”, „150�
   albo od razu po Enterze. Przy min > max pokazujemy błąd i nie zapisujemy.
 - **Każda zatwierdzona zmiana to wpis w historii** (`push`), łącznie z paginacją: „wstecz” cofa świadome akcje.
 - **Każda zmiana filtra wraca na stronę 1.**
+- **Dwa resety, jedna funkcja** (`searchWithoutFilters`): „Clear filters” pod filtrami zostawia frazę
+  i jest widoczny tylko przy aktywnym filtrze; „Show all products” w pustym stanie czyści też frazę,
+  bo zero wyników często daje sama fraza. Sort zostaje w obu (jak przy nowym wyszukiwaniu).
 - **Jeden zapis na stronę:** strona tworzy `provideListingQuery()`, a komponenty używają `useListingQuery()`.
   Wspólne debounce sprawia, że wyszukiwanie anuluje zmiany filtrów, które jeszcze czekają.
 

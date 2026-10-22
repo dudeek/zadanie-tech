@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const { filters, startNewSearch } = useListingQuery()
+const { filters, searchWithoutFilters } = useListingQuery()
 
 const searchInUrl = computed(() => filters.value.search)
 const searchInput = ref(searchInUrl.value)
@@ -12,7 +12,7 @@ watch(searchInUrl, (value) => {
 const submit = () => {
   const search = searchInput.value.trim()
   if (search === searchInUrl.value) return
-  startNewSearch({ search, sort: allowedSort(filters.value.sort) })
+  searchWithoutFilters(search)
 }
 
 const clear = () => {

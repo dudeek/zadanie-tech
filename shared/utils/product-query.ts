@@ -1,3 +1,8 @@
+import { CATEGORIES, SPEC_PARAM_BY_CATEGORY, allowedSort } from '#shared/types/product'
+import type { NumberRange, ProductQuery, RangeParam } from '#shared/types/product'
+import { DEFAULT_SORT } from '#shared/utils/constants'
+import { queryList, queryNumber, queryOneOf, queryPage, queryString } from '#shared/utils/query'
+
 const readRange = (raw: Record<string, unknown>, param: RangeParam): NumberRange => ({
   min: queryNumber(raw[`${param}Min`]),
   max: queryNumber(raw[`${param}Max`])
@@ -14,6 +19,10 @@ const hasRange = (range: NumberRange) => range.min !== undefined || range.max !=
 
 export const isIndexable = (query: ProductQuery): boolean => {
   return query.search === '' && !hasRange(query.price) && !hasRange(query.spec)
+}
+
+export const hasActiveFilters = (query: ProductQuery): boolean => {
+  return Boolean(query.category) || query.manufacturers.length > 0 || hasRange(query.price) || hasRange(query.spec)
 }
 
 export const parseProductQuery = (raw: Record<string, unknown>): ProductQuery => {

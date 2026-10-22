@@ -33,6 +33,7 @@
   "products": {
     "count": "No products | {count} product | {count} products",
     "empty": {
+      "action": "Show all products",
       "description": "Try changing the search or removing some filters.",
       "title": "No matching products"
     },

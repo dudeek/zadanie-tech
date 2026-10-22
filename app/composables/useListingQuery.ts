@@ -42,7 +42,15 @@ const createListingQuery = () => {
     return router.push({ query: withoutDefaults(query) })
   }
 
-  return { filters, applyFilter, startNewSearch }
+  const searchWithoutFilters = (search: string) => {
+    return startNewSearch({ search, sort: allowedSort(filters.value.sort) })
+  }
+
+  const clearFilters = () => searchWithoutFilters(filters.value.search)
+
+  const showAllProducts = () => searchWithoutFilters('')
+
+  return { filters, applyFilter, searchWithoutFilters, clearFilters, showAllProducts }
 }
 
 export const provideListingQuery = (): ListingQuery => {
