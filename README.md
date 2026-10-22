@@ -28,6 +28,10 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   ([ADR 0004](docs/adr/0004-ssr-listing.md)).
 - UI po angielsku jak dane, i18n z jedną lokalizacją, więc kolejny język nie wymaga zmian w komponentach
   ([ADR 0005](docs/adr/0005-english-ui-i18n.md)).
+- kWh/W z opisu, kontrolowane liczbą z nazwy; przy niezgodności „brak danych” zamiast zgadywania
+  ([ADR 0006](docs/adr/0006-spec-from-description-checked-by-name.md)).
+- CSV parsowany raz na instancję serwera. Wydajność i SEO jak przy parsowaniu w buildzie,
+  a zepsute dane zatrzymuje test w komendzie buildu ([ADR 0007](docs/adr/0007-parse-csv-once-per-instance.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 

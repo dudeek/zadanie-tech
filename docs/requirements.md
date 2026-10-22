@@ -51,7 +51,9 @@ więc link z filtrami nie wyrenderuje się w SSR. Usunięte, `/` w SSR ([ADR 000
 ## Tematy do decyzji (każda kończy się ADR)
 
 1. ~~Język i i18n (odbiorcy w całej Europie).~~ EN, i18n z jedną lokalizacją, [ADR 0005](adr/0005-english-ui-i18n.md).
-2. Źródło kWh/W: opis, nazwa czy oba z kontrolą zgodności; parsowanie przy starcie czy przy buildzie.
+2. ~~Źródło kWh/W: opis, nazwa czy oba z kontrolą zgodności; parsowanie przy starcie czy przy buildzie.~~
+   Opis z kontrolą nazwy ([ADR 0006](adr/0006-spec-from-description-checked-by-name.md)), raz na instancję
+   z testem w buildzie ([ADR 0007](adr/0007-parse-csv-once-per-instance.md)).
 3. Model danych: jedno pole „parametr + jednostka” czy dwa; `id`/slug, waluta, format ceny.
 4. Filtr/sort po kWh/W przy mieszanych kategoriach (różne jednostki).
 5. Odczyt CSV na Vercelu (`server/assets` + `useStorage` czy `fs`).
