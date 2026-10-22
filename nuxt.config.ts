@@ -23,6 +23,15 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-06-30',
 
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        noImplicitReturns: true,
+        noFallthroughCasesInSwitch: true
+      }
+    }
+  },
+
   eslint: {
     config: {
       stylistic: {
