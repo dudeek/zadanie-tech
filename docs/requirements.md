@@ -54,14 +54,15 @@ więc link z filtrami nie wyrenderuje się w SSR. Usunięte, `/` w SSR ([ADR 000
 2. ~~Źródło kWh/W: opis, nazwa czy oba z kontrolą zgodności; parsowanie przy starcie czy przy buildzie.~~
    Opis z kontrolą nazwy ([ADR 0006](adr/0006-spec-from-description-checked-by-name.md)), raz na instancję
    z testem w buildzie ([ADR 0007](adr/0007-parse-csv-once-per-instance.md)).
-3. Model danych: jedno pole „parametr + jednostka” czy dwa; `id`/slug, waluta, format ceny.
-4. Filtr/sort po kWh/W przy mieszanych kategoriach (różne jednostki).
+3. ~~Model danych: jedno pole „parametr + jednostka” czy dwa; `id`/slug, waluta, format ceny.~~
+   [ADR 0008](adr/0008-product-model.md).
+4. ~~Filtr/sort po kWh/W przy mieszanych kategoriach (różne jednostki).~~ [ADR 0009](adr/0009-filters-and-sorting.md).
 5. Odczyt CSV na Vercelu (`server/assets` + `useStorage` czy `fs`).
 6. Schemat URL: nazwy parametrów, wielu producentów, slugi, walidacja, błędne wartości.
 7. Historia: `push` czy `replace`, filtry od razu czy po zatwierdzeniu.
-8. Producenci zależni od kategorii (fasety, liczniki); każdy producent jest w jednej kategorii.
-   Do tego filtr ceny przy zakresie 6.99–1999 (suwak czy pola, zakres zależny od kategorii).
-9. Wyszukiwanie: podciąg czy tokeny, debounce.
+8. Producenci zależni od kategorii i pola zakresów: [ADR 0009](adr/0009-filters-and-sorting.md).
+   Otwarte: liczniki przy opcjach filtrów (fasety).
+9. Wyszukiwanie: tokeny AND, [ADR 0010](adr/0010-search-all-words.md). Otwarte: debounce (z tematem 7).
 10. Paginacja czy jedna strona.
 11. ~~Tryb renderowania `/`.~~ SSR, [ADR 0004](adr/0004-ssr-listing.md).
 12. SEO: tytuł/opis z filtrów, `canonical`, `noindex` dla części kombinacji.

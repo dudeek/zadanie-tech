@@ -32,6 +32,12 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   ([ADR 0006](docs/adr/0006-spec-from-description-checked-by-name.md)).
 - CSV parsowany raz na instancję serwera. Wydajność i SEO jak przy parsowaniu w buildzie,
   a zepsute dane zatrzymuje test w komendzie buildu ([ADR 0007](docs/adr/0007-parse-csv-once-per-instance.md)).
+- Model bez sztucznego `id`, cena jako walidowana liczba, waluta EUR jako założenie zdefiniowane
+  w jednym formacie i18n ([ADR 0008](docs/adr/0008-product-model.md)).
+- Filtr i sort po kWh/W tylko w kategorii, której dotyczą, domyślnie A–Z, bo nie mamy danych
+  o popularności ([ADR 0009](docs/adr/0009-filters-and-sorting.md)).
+- Wyszukiwanie: każde słowo musi wystąpić w nazwie, producencie lub opisie, bez biblioteki i rankingu
+  ([ADR 0010](docs/adr/0010-search-all-words.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 
