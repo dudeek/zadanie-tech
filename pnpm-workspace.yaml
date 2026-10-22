@@ -4,3 +4,11 @@ allowBuilds:
   esbuild: false
   unrs-resolver: false
   vue-demi: false
+
+# @napi-rs/wasm-runtime 1.x chce @emnapi/* ^2.0.0-alpha, a w drzewie jest 1.x. Ciągną go tylko
+# zapasowe wiązania *-wasm32-wasi (oxc, unrs-resolver), nieładowane na Linux x64 (lokalnie, CI, Vercel).
+# Usuń, gdy upstream wyrówna wersje.
+peerDependencyRules:
+  allowedVersions:
+    '@napi-rs/wasm-runtime@1>@emnapi/core': '1'
+    '@napi-rs/wasm-runtime@1>@emnapi/runtime': '1'
