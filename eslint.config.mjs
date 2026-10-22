@@ -1,9 +1,20 @@
 // @ts-check
 import withNuxt from './.nuxt/eslint.config.mjs'
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss'
-import { getDefaultAttributes } from 'eslint-plugin-better-tailwindcss/api/defaults'
+import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/api/defaults'
+import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/api/types'
+import eslintPluginJsonc from 'eslint-plugin-jsonc'
+
+const localeFiles = ['i18n/locales/*.json']
 
 export default withNuxt(
+  eslintPluginJsonc.configs.base.map(config => ({ ...config, files: localeFiles })),
+  {
+    files: localeFiles,
+    rules: {
+      'jsonc/sort-keys': ['error', { pathPattern: '.*', order: { type: 'asc' } }]
+    }
+  },
   betterTailwindcss.configs['correctness-error'],
   betterTailwindcss.configs['stylistic-warn'],
   {
@@ -14,9 +25,9 @@ export default withNuxt(
       'better-tailwindcss': {
         entryPoint: 'app/assets/css/main.css',
         rootFontSize: 16,
-        attributes: [
-          ...getDefaultAttributes(),
-          ['^v-bind:ui$', [{ match: 'objectValues' }]]
+        selectors: [
+          ...getDefaultSelectors(),
+          { kind: SelectorKind.Attribute, name: '^v-bind:ui$', match: [{ type: MatcherType.ObjectValue }] }
         ]
       }
     }
