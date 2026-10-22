@@ -46,6 +46,12 @@ Pełne uzasadnienia, odrzucone opcje i warunki rewizji: [docs/adr/](docs/adr/).
   i zakresów ([ADR 0013](docs/adr/0013-seo-indexable-filters.md)).
 - Ładowanie: stare wyniki przygaszone z paskiem postępu zamiast skeletonów, więc układ nie skacze
   i nic nie miga przy szybkiej odpowiedzi ([ADR 0014](docs/adr/0014-loading-state.md)).
+- CSV jako server asset Nitro: przy buildzie trafia do bundla funkcji, więc na Vercelu nie ma odczytu z dysku
+  ([ADR 0015](docs/adr/0015-csv-as-server-asset.md)).
+- Błędne wartości w URL działają jak brak parametru, a nie błąd 400: link z literówką nadal pokazuje listę.
+  Serwer i UI używają tego samego parsera ([ADR 0016](docs/adr/0016-invalid-url-values-ignored.md)).
+- Testy jednostkowe tam, gdzie jest ryzyko danych: parser CSV na prawdziwym pliku blokuje deploy, a E2E zostało
+  do zrobienia ([ADR 0017](docs/adr/0017-test-scope.md)).
 
 ## 2. Pozyskanie kWh/W i przypadki brzegowe
 
@@ -88,6 +94,15 @@ z listą indeksowanych kombinacji i decyzje na podstawie danych z Search Console
 - Pełny opis na telefonie: dziś tooltip tylko na desktopie (w HTML jest cały opis, więc SEO i czytniki ekranu go mają).
 - Wolne łącze: `useFetch` domyślnie anuluje poprzednie zapytanie (`dedupe: 'cancel'`), ale nie sprawdziliśmy tego
   na throttlingu. Do zrobienia: jawny `AbortController` i `timeout` z komunikatem dla użytkownika.
+
+Do wdrożenia, gdy będzie czas (zabrakło go w limicie 5 h):
+
+- **Liczniki przy opcjach filtrów** (np. „PowerFlow (5)”, „Battery (50)”). Serwer już liczy fasety dla kategorii,
+  więc wystarczy zwracać liczby razem z listą producentów i kategorii, policzone dla pozostałych filtrów.
+- **Scenariusz E2E w Playwright:** filtr → URL → odświeżenie (SSR) → „wstecz”. Ścieżka była sprawdzana ręcznie
+  skryptem w trakcie pracy, ale nie jest zapisana jako test ([ADR 0017](docs/adr/0017-test-scope.md)).
+- **Testy jednostkowe `parseProductQuery` i `listProducts`:** obie funkcje są czyste, więc to tani test walidacji URL,
+  filtrowania, sortowania i paginacji.
 
 ## 5. Lighthouse
 
